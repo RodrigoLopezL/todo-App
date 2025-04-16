@@ -21,11 +21,11 @@ interface TaskItemProps {
   onTaskStateChange: (taskId: number, isChecked: boolean) => void; // Callback to notify parent of state changes
 }
 
-function TaskItem({ task, onTaskUpdated, onTaskDeleted,onTaskStateChange }: TaskItemProps) {
+function TaskItem({ task, onTaskUpdated, onTaskDeleted, onTaskStateChange }: TaskItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
 
-  const { handleUpdateTask, handleDeleteTask, loading } = useTaskManagement();
+  const { handleDeleteTask, loading } = useTaskManagement();
 
   const openModal = (taskToEdit: Task) => {
     setTaskToEdit(taskToEdit);
@@ -57,8 +57,24 @@ function TaskItem({ task, onTaskUpdated, onTaskDeleted,onTaskStateChange }: Task
     }
   };
 
+  // Determine the background color based on the due date
+  const getRowBackgroundColor = () => {
+    if (!task.dueDate) return ''; // No background if no due date
+
+    const currentDate = new Date();
+    const dueDate = new Date(task.dueDate);
+    const timeDiff = dueDate.getTime() - currentDate.getTime();
+    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+    if (daysDiff <= 7) return 'bg-red-200'; // 1 week or less -> red background
+    if (daysDiff <= 14) return 'bg-yellow-200'; // 2 weeks or less -> yellow background
+    if (daysDiff > 14) return 'bg-green-200'; // More than 2 weeks -> green background
+
+    return ''; // Default no background
+  };
+
   return (
-    <tr>
+    <tr className={getRowBackgroundColor()}>
       <th className="border border-gray-400">
         <input
           id={String(task.id)}
@@ -69,7 +85,9 @@ function TaskItem({ task, onTaskUpdated, onTaskDeleted,onTaskStateChange }: Task
           disabled={loading} // Disable while loading
         />
       </th>
-      <th className="border border-gray-400">{task.text}</th>
+      <th className={`border border-gray-400 ${task.state ? 'line-through text-gray-500' : ''}`}>
+        {task.text}
+      </th>
       <th className="border border-gray-400">{task.priority}</th>
       <th className="border border-gray-400">{task.dueDate ? task.dueDate.split('T')[0] : "-"}</th>
       <th className="border border-gray-400">

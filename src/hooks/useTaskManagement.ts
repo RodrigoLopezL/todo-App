@@ -1,6 +1,17 @@
 import { useState } from 'react';
 import { createTask, updateTask, deleteTask } from '../services/apiService';
 
+interface Task {
+    id: number;
+    text: string;
+    dueDate: string;
+    priority: string;
+    state: boolean;
+    creationDate: string;
+    doneDate: string;
+    timeFrame: string;
+}
+
 export const useTaskManagement = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
