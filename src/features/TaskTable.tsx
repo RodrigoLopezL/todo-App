@@ -100,6 +100,7 @@ function TaskTable({ dataApi, onSortChange, sortby }: TaskTableProps) {
                         }))
                     )
                 );
+                
                 setData(updatedTasks);
             } catch (error) {
                 console.error('Error updating all task states:', error);
@@ -127,6 +128,7 @@ function TaskTable({ dataApi, onSortChange, sortby }: TaskTableProps) {
                     <tr>
                         <th className="border border-gray-400">
                             <input
+                                data-testid='select-all-checkbox'
                                 type="checkbox"
                                 className="w-fit h-fit mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 checked={selectAll}
@@ -136,6 +138,7 @@ function TaskTable({ dataApi, onSortChange, sortby }: TaskTableProps) {
                         </th>
                         <th className="border border-gray-400">Name</th>
                         <th
+                            data-testid='header-priority'
                             className="border border-gray-400 cursor-pointer"
                             onClick={() => handleSortChange('priority')}
                         >

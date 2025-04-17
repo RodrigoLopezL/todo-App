@@ -29,8 +29,7 @@ describe('Home Component', () => {
         });
 
         mockedUseSorting.mockReturnValue({
-            sortDirectionPriority: 'asc',
-            sortDirectionDueDate: 'asc',
+            sortby: '',
             handleSortChange: vi.fn(),
         });
 
@@ -79,8 +78,7 @@ describe('Home Component', () => {
         });
 
         mockedUseSorting.mockReturnValue({
-            sortDirectionPriority: 'asc',
-            sortDirectionDueDate: 'asc',
+            sortby: '',
             handleSortChange: vi.fn(),
         });
 
@@ -114,28 +112,27 @@ describe('Home Component', () => {
         expect(handlePageChangeMock).toHaveBeenCalled();
     });
 
-    // it('handles sort change and triggers fetchTasks', () => {
-    //     const fetchTasksMock = vi.fn();
-    //     const handleSortChangeMock = vi.fn();
+    it('handles sort change and triggers fetchTasks', () => {
+        const fetchTasksMock = vi.fn();
+        const handleSortChangeMock = vi.fn();
     
-    //     mockedUseFetchTasks.mockReturnValue({
-    //         data: [],
-    //         error: null,
-    //         loading: false,
-    //         totalPages: 1,
-    //         fetchTasks: fetchTasksMock,
-    //     });
+        mockedUseFetchTasks.mockReturnValue({
+            data: [],
+            error: null,
+            loading: false,
+            totalPages: 1,
+            fetchTasks: fetchTasksMock,
+        });
     
-    //     mockedUseSorting.mockReturnValue({
-    //         sortDirectionPriority: 'asc',
-    //         sortDirectionDueDate: 'asc',
-    //         handleSortChange: handleSortChangeMock,
-    //     });
+        mockedUseSorting.mockReturnValue({
+            sortby: 'Priority',
+            handleSortChange: handleSortChangeMock,
+        });
     
-    //     render(<Home />);
-    //     const priorityHeader = screen.getByText('Priority');
-    //     priorityHeader.click();
+        render(<Home />);
+        const priorityHeader = screen.getByTestId('header-priority'); // Assuming you have a test ID for the header
+        priorityHeader.click();
     
-    //     expect(handleSortChangeMock).toHaveBeenCalledWith('priority');
-    // });
+        expect(fetchTasksMock).toHaveBeenCalled();
+    });
 });
