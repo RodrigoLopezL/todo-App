@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useFetchTasks from '../hooks/useFetchTasks';
 import usePagination from '../hooks/usePagination';
 import useSorting from '../hooks/useSorting';
@@ -10,16 +10,16 @@ import TimeBar from '../features/TimeBar';
 function Home() {
     const { data, error, loading, totalPages, fetchTasks } = useFetchTasks();
     const { currentPage, handlePageChange } = usePagination();
-    const { sortDirectionPriority, sortDirectionDueDate, handleSortChange } = useSorting();
+    const { sortby, handleSortChange } = useSorting();
 
     // Function to handle filters from FilterToolBar
     const handleSearchFilter = (filters?: { text?: string; priority?: string; state?: string }) => {
-        fetchTasks(filters || {}, currentPage, sortDirectionPriority, sortDirectionDueDate);
+        fetchTasks(filters || {}, currentPage, sortby);
     };
 
     useEffect(() => {
-        fetchTasks({}, currentPage, sortDirectionPriority, sortDirectionDueDate);
-    }, [currentPage, sortDirectionPriority, sortDirectionDueDate, fetchTasks]);
+        fetchTasks({}, currentPage, sortby);
+    }, [currentPage, sortby, fetchTasks]);
 
     if (loading) return <p>Loading tasks to page</p>;
     if (error) return <p>Error loading tasks: {error.message}</p>;
@@ -33,6 +33,7 @@ function Home() {
             <TaskTable
                 dataApi={data}
                 onSortChange={handleSortChange}
+                sortby={sortby}
             />
 
             <PaginationControls

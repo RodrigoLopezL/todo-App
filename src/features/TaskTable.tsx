@@ -4,6 +4,7 @@ import TaskItem from './TaskItem';
 import Modal from '../UI/Modal';
 import useModal from '../hooks/useModal';
 import { patchTaskState } from '../services/apiService'; // Import the patch function
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 
 interface Task {
     id: number;
@@ -18,10 +19,11 @@ interface Task {
 
 interface TaskTableProps {
     dataApi: Task[] | null;
-    onSortChange: (column: 'priority' | 'dueDate') => void;
+    onSortChange: (sortby: string) => void;
+    sortby: string;
 }
 
-function TaskTable({ dataApi, onSortChange }: TaskTableProps) {
+function TaskTable({ dataApi, onSortChange, sortby }: TaskTableProps) {
     const [data, setData] = useState<Task[] | null>(dataApi);
     const { isModalOpen, openModal, closeModal } = useModal();
     const [selectAll, setSelectAll] = useState(false); // State for the header checkbox
@@ -48,7 +50,7 @@ function TaskTable({ dataApi, onSortChange }: TaskTableProps) {
     const handleTaskStateChange = async (taskId: number, isChecked: boolean) => {
         const action = isChecked ? 'done' : 'undone'; // Determine the action based on the checkbox state
         try {
-            const updatedTask = await patchTaskState(taskId, action);
+            await patchTaskState(taskId, action);
             setData((prevData) =>
                 prevData ? prevData.map((task) => (task.id === taskId ? { ...task, state: isChecked } : task)) : null
             );
@@ -56,6 +58,35 @@ function TaskTable({ dataApi, onSortChange }: TaskTableProps) {
             console.error('Error updating task state:', error);
         }
     };
+
+    const handleSortChange = (column: string) => {
+
+        if (column === 'priority') {
+            if (sortby === '') {
+                sortby = 'priority'; // First state: ascending
+            } else if (sortby.includes('priority,desc')) {
+                sortby = sortby.replace('priority,desc', ''); // Second state: descending
+            } else if (sortby.includes('priority')) {
+                sortby = sortby.replace('priority', 'priority,desc'); // Second state: descending
+            } else {
+                sortby += ',priority'; // Third state: ascending again
+            }
+        }
+
+        if (column === 'dueDate') {
+            if (sortby === '') {
+                sortby = 'dueDate'; // First state: ascending
+            } else if (sortby.includes('dueDate,desc')) {
+                sortby = sortby.replace('dueDate,desc', ''); // Second state: descending
+            } else if (sortby.includes('dueDate')) {
+                sortby = sortby.replace('dueDate', 'dueDate,desc'); // Second state: descending
+            } else {
+                sortby += ',dueDate'; // Third state: ascending again
+            }
+        }
+
+        onSortChange(sortby); // Call the parent function with the new sortby value
+    }
 
     const handleSelectAllChange = async (isChecked: boolean) => {
         setSelectAll(isChecked);
@@ -106,15 +137,48 @@ function TaskTable({ dataApi, onSortChange }: TaskTableProps) {
                         <th className="border border-gray-400">Name</th>
                         <th
                             className="border border-gray-400 cursor-pointer"
-                            onClick={() => onSortChange('priority')}
+                            onClick={() => handleSortChange('priority')}
                         >
-                            Priority
+                            <div className='text-center border border-black'>
+                                <span>Priority</span>
+                                <span>
+                                    {
+                                        sortby.includes('priority,desc') ?
+                                            (
+                                                <FaArrowUp className='inline-block' />
+                                            ) :
+                                            sortby.includes('priority') ?
+                                                (
+                                                    <FaArrowDown className='inline-block' />
+                                                ) :
+                                                <></>
+                                    }
+                                </span>
+                            </div>
+
+
                         </th>
                         <th
-                            className="border border-gray-400 cursor-pointer"
-                            onClick={() => onSortChange('dueDate')}
+                            className="text-center border border-black"
+                            onClick={() => handleSortChange('dueDate')}
                         >
-                            Due Date
+                            <div className='text-center border border-black'>
+                                <span>Due Date</span>
+                                <span>
+                                    {
+                                        sortby.includes('dueDate,desc') ?
+                                            (
+                                                <FaArrowUp className='inline-block' />
+                                            ) :
+                                            sortby.includes('dueDate') ?
+                                                (
+                                                    <FaArrowDown className='inline-block' />
+                                                ) :
+                                                <></>
+                                    }
+                                </span>
+                            </div>
+
                         </th>
                         <th className="border border-gray-400">Actions</th>
                     </tr>

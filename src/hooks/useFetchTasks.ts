@@ -30,8 +30,9 @@ interface UseFetchTasksResult {
     fetchTasks: (
         filters?: Filters,
         page?: number,
-        sortOrderPriority?: 'asc' | 'desc',
-        sortOrderDueDate?: 'asc' | 'desc'
+        sortby: string
+        // sortOrderPriority?: 'priority' | 'priority,desc' | '',
+        // sortOrderDueDate?: 'dueDate' | 'dueDate,desc' | ''
     ) => Promise<void>;
 }
 
@@ -40,19 +41,21 @@ const useFetchTasks = (): UseFetchTasksResult => {
     const [error, setError] = useState<Error | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [totalPages, setTotalPages] = useState<number>(0);
-    const pageSize = 4;
+    const pageSize = 10;
 
     const fetchTasks = useCallback(
         async (
             filters: Filters = {},
             page: number = 0,
-            sortOrderPriority: 'asc' | 'desc' = 'asc',
-            sortOrderDueDate: 'asc' | 'desc' = 'asc',
+            sortby: string = '',
+            // sortOrderPriority?: 'priority' | 'priority,desc' | '',
+            // sortOrderDueDate?: 'dueDate' | 'dueDate,desc' | '',
         ) => {
             setLoading(true);
             setError(null);
             try {
-                const tasks: ApiResponse = await fetchTasksApi(page, pageSize, filters, sortOrderPriority, sortOrderDueDate);
+                
+                const tasks: ApiResponse = await fetchTasksApi(page, pageSize, filters, sortby);
                 setData(tasks.content);
                 setTotalPages(tasks.totalPages);
             } catch (err) {

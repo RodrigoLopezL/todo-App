@@ -14,10 +14,7 @@ export const fetchTasksApi = async (
   page: number,
   pageSize: number,
   filters: { text?: string; priority?: string; state?: string } = {},
-  // sortPriority: string | null = null,
-  sortOrderPriority: 'asc' | 'desc' = 'asc',
-  // sortDueDate: string | null = null,
-  sortOrderDueDate: 'asc' | 'desc' = 'asc',
+  sortby: string,
 ) => {
   let url = `http://localhost:8080/todos?page=${page}&size=${pageSize}`;
 
@@ -25,7 +22,7 @@ export const fetchTasksApi = async (
   if (filters.priority) url += `&priority=${filters.priority}`;
   if (filters.state) url += `&state=${filters.state}`;
   
-  url += `&sort=priority,${sortOrderPriority},dueDate,${sortOrderDueDate}`;
+  url += `&sort=${sortby}`;
 
   const response = await fetch(url);
   if (!response.ok) {

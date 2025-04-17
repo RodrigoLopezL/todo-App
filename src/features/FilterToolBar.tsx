@@ -86,21 +86,20 @@ function FilterToolBar({ onSearchFilter }: FilterToolBarProps) {
               </select>
             </div>
           </div>
-          <div className='basis-2/5 p-2'>
+            <div className='basis-2/5 p-2 flex justify-end items-end'>
             <button
-              className=' m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline '
+              className='m-2 w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
               onClick={handleClick}
             >
               Search
             </button>
             <button
-              className=' m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline '
+              className='m-2 w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
               onClick={handleClickClean}
             >
-              Clean
+              Reset
             </button>
-            
-          </div>
+            </div>
         </div>
       </div>
     </div>
