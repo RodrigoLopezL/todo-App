@@ -9,6 +9,19 @@ interface Task {
   doneDate: string;
   timeFrame: string;
 }
+interface StateTask{
+  id: number;
+  stats : boolean;
+}
+
+interface TimeData {
+  AvgTotalTime: number;
+  avgTimeLowPriority: number;
+  avgTimeMediumPriority: number;
+  avgTimeHighPriority: number;
+}
+
+const urlbase = 'http://localhost:9090/todos';
 
 export const fetchTasksApi = async (
   page: number,
@@ -16,47 +29,47 @@ export const fetchTasksApi = async (
   filters: { text?: string; priority?: string; state?: string } = {},
   sortby: string,
 ) => {
-  let url = `http://localhost:8080/todos?page=${page}&size=${pageSize}`;
+  let url = `${urlbase}?page=${page}&size=${pageSize}`;
 
   if (filters.text) url += `&text=${filters.text}`;
   if (filters.priority) url += `&priority=${filters.priority}`;
   if (filters.state) url += `&state=${filters.state}`;
-  
+
   url += `&sort=${sortby}`;
 
   const response = await fetch(url);
   if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    throw new Error(`HTTP error! status: ${response.status}`);
   }
   return response.json();
 };
 
 export const createTask = async (task: Partial<Task>): Promise<Task> => {
-  const response = await fetch('http://localhost:8080/todos', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task),
+  const response = await fetch(urlbase, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(task),
   });
   if (!response.ok) {
-      throw new Error(`Failed to create task: ${response.statusText}`);
+    throw new Error(`Failed to create task: ${response.statusText}`);
   }
   return response.json();
 };
 
 export const updateTask = async (taskId: number, updates: Partial<Task>): Promise<Task> => {
-  const response = await fetch(`http://localhost:8080/todos/${taskId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updates),
+  const response = await fetch(`${urlbase}/${taskId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updates),
   });
   if (!response.ok) {
-      throw new Error(`Failed to update task: ${response.statusText}`);
+    throw new Error(`Failed to update task: ${response.statusText}`);
   }
   return response.json();
 };
 
-export const patchTaskState = async (taskId: number, action: 'done' | 'undone'): Promise<Task> => {
-  const response = await fetch(`http://localhost:8080/todos/${taskId}/${action}`, {
+export const patchTaskState = async (taskId: number, action: 'done' | 'undone'): Promise<StateTask> => {
+  const response = await fetch(`${urlbase}/${taskId}/${action}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
   });
@@ -69,17 +82,17 @@ export const patchTaskState = async (taskId: number, action: 'done' | 'undone'):
 };
 
 export const deleteTask = async (taskId: number): Promise<void> => {
-  const response = await fetch(`http://localhost:8080/todos/${taskId}`, {
-      method: 'DELETE',
+  const response = await fetch(`${urlbase}/${taskId}`, {
+    method: 'DELETE',
   });
   if (!response.ok) {
-      throw new Error(`Failed to delete task: ${response.statusText}`);
+    throw new Error(`Failed to delete task: ${response.statusText}`);
   }
 };
 
 export const fetchTimeData = async (): Promise<TimeData> => {
 
-  const response = await fetch('http://localhost:8080/todos/time');
+  const response = await fetch(`${urlbase}/time`);
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }

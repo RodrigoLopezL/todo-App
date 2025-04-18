@@ -1,31 +1,31 @@
 import { useEffect, useRef, useState } from 'react';
-import useFetchTasks from '../hooks/useFetchTasks';
-import usePagination from '../hooks/usePagination';
-import useSorting from '../hooks/useSorting';
-import TaskTable from '../features/TaskTable';
-import PaginationControls from '../UI/PaginationControls';
-import FilterToolBar from '../features/FilterToolBar';
-import TimeBar from '../features/TimeBar';
+import useFetchTasks from './hooks/useFetchTasks';
+import usePagination from './hooks/usePagination';
+import useSorting from './hooks/useSorting';
+import TaskTable from './features/TaskTable';
+import PaginationControls from './UI/PaginationControls';
+import FilterToolBar from './features/FilterToolBar';
+import TimeBar from './features/TimeBar';
 
 function Home() {
     const { data, error, loading, totalPages, fetchTasks } = useFetchTasks();
     const { currentPage, handlePageChange } = usePagination();
-    const { sortDirectionPriority, sortDirectionDueDate, handleSortChange } = useSorting();
+    const { sortby, handleSortChange } = useSorting();
     const [shouldFetch, setShouldFetch] = useState(true);
 
     // Function to handle filters from FilterToolBar
     const handleSearchFilter = (filters?: { text?: string; priority?: string; state?: string }) => {
-        fetchTasks(filters || {}, currentPage, sortDirectionPriority, sortDirectionDueDate);
+        fetchTasks(filters || {}, currentPage, sortby);
     };
 
     useEffect(() => {
         if (shouldFetch) {
-            fetchTasks({}, currentPage, sortDirectionPriority, sortDirectionDueDate);
+            fetchTasks({}, currentPage, sortby);
             setShouldFetch(false);
         }
-    }, [currentPage, sortDirectionPriority, sortDirectionDueDate, fetchTasks, shouldFetch]);
+    }, [currentPage, sortby, fetchTasks, shouldFetch]);
 
-    // if (loading) return <p>Loading tasks to page</p>;
+    if (loading) return <p>Loading tasks to page</p>;
     if (error) return <p>Error loading tasks: {error.message}</p>;
 
     return (
@@ -37,6 +37,7 @@ function Home() {
             <TaskTable
                 dataApi={data}
                 onSortChange={handleSortChange}
+                sortby={sortby}
             />
 
             <PaginationControls
