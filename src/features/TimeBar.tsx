@@ -7,8 +7,9 @@ interface TimeData {
     avgTimeLowPriority: number;
     avgTimeMediumPriority: number;
     avgTimeHighPriority: number;
-    // Add other properties of your API response here if necessary
+
 }
+
 
 function TimeBar() {
     const [data, setData] = useState<TimeData | null>(null);
@@ -40,22 +41,21 @@ function TimeBar() {
         return null;
     }
 
-    if (data) {
-        return (
-            <div className='flex flex-col md:flex-row border-1 border-gray-400 m-4'>
-                <div className='basis-1/2 m-2'>
-                    <h2 className="text-xl font-bold mb-4 text-center">Average time to finish tasks:</h2>
-                    <h2 className="text-xl font-bold mb-4 text-center">{parseFormatTimePT(data.AvgTotalTime.toString())}</h2>
-                </div>
-                <div className='basis-1/2 m-2'>
-                    <h2 className="text-xl font-bold mb-4 text-center lg:text-left">Average time to finish tasks by priority:</h2>
-                    <h2 className="text-xl font-bold mb-4 text-center lg:text-left">Low= {parseFormatTimePT(data.avgTimeLowPriority.toString())}</h2>
-                    <h2 className="text-xl font-bold mb-4 text-center lg:text-left">Medium= {parseFormatTimePT(data.avgTimeMediumPriority.toString())}</h2>
-                    <h2 className="text-xl font-bold mb-4 text-center lg:text-left">High= {parseFormatTimePT(data.avgTimeHighPriority.toString())}</h2>
-                </div>
+    return (
+        <div className='flex flex-col md:flex-row border-1 border-gray-400 m-4'>
+            <div className='basis-1/2 m-2'>
+                <h2 className="text-xl font-bold mb-4 text-center">Average time to finish tasks:</h2>
+                <h2 data-testid='avgtimetotal' className="text-xl font-bold mb-4 text-center">{parseFormatTimePT(data?.AvgTotalTime.toString())}</h2>
             </div>
-        );
-    }
+            <div className='basis-1/2 m-2'>
+                <h2 className="text-xl font-bold mb-4 text-center lg:text-left">Average time to finish tasks by priority:</h2>
+                <h2 data-testid='avgtimelow' className="text-xl font-bold mb-4 text-center lg:text-left">Low= {parseFormatTimePT(data?.avgTimeLowPriority.toString())}</h2>
+                <h2 data-testid='avgtimemedium' className="text-xl font-bold mb-4 text-center lg:text-left">Medium= {parseFormatTimePT(data?.avgTimeMediumPriority.toString())}</h2>
+                <h2 data-testid='avgtimehigh' className="text-xl font-bold mb-4 text-center lg:text-left">High= {parseFormatTimePT(data?.avgTimeHighPriority.toString())}</h2>
+            </div>
+        </div>
+    );
+
 
     return null;
 }

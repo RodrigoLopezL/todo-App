@@ -24,7 +24,7 @@ function FormTodo({ onTaskUpdated, onTaskCreated, taskData, onClose }: FormTodoP
   const [dueDate, setDueDate] = useState<string>('');
   const [priority, setPriority] = useState<string>('');
   const [errorForm, setErrorForm] = useState<string>('');
-  const { handleCreateTask, handleUpdateTask, loading, error } = useTaskManagement();
+  const {handleCreateTask, handleUpdateTask, loading, error } = useTaskManagement();
 
   useEffect(() => {
     if (taskData) {
@@ -93,6 +93,7 @@ function FormTodo({ onTaskUpdated, onTaskCreated, taskData, onClose }: FormTodoP
           Name:
         </label>
         <input
+          data-testid="inputTextTask"
           onChange={handleTextChange}
           value={text}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -106,6 +107,7 @@ function FormTodo({ onTaskUpdated, onTaskCreated, taskData, onClose }: FormTodoP
           Due Date:
         </label>
         <input
+          data-testid="inputDueDateTask"
           onChange={handleDueDateChange}
           value={dueDate}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -118,6 +120,7 @@ function FormTodo({ onTaskUpdated, onTaskCreated, taskData, onClose }: FormTodoP
           Priority:
         </label>
         <select
+          data-testid="selectPriorityTask"
           onChange={handleSelectPriorityChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="htmlSelectPriority"
@@ -130,9 +133,10 @@ function FormTodo({ onTaskUpdated, onTaskCreated, taskData, onClose }: FormTodoP
         </select>
       </div>
 
-      {error && <p className="text-red-500 text-sm">{errorForm}</p>}
+      {error && <p data-testestid='error-p' className="text-red-500 text-sm">{errorForm}</p>}
 
       <button
+        data-testid="buttonSubmitTask"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="button"
         onClick={handleSubmit}
