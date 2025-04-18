@@ -45,6 +45,7 @@ function FilterToolBar({ onSearchFilter }: FilterToolBarProps) {
       <div className="flex flex-col p-4 border-1 border-gray-400">
         <label className='font-bold mb-4'>Name</label>
         <input
+          data-testid="inputTextTask"
           type="text"
           name="inputTextTask"
           id="inputTextTask"
@@ -60,6 +61,7 @@ function FilterToolBar({ onSearchFilter }: FilterToolBarProps) {
               <select
                 name="selectPriorityTask"
                 id="selectPriorityTask"
+                data-testid ="selectPriorityTask"
                 value={selectPriority}
                 onChange={handlePriorityChange}
                 className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -76,6 +78,7 @@ function FilterToolBar({ onSearchFilter }: FilterToolBarProps) {
               <select
                 name="selectStateTask"
                 id="selectStateTask"
+                data-testid ="selectStateTask"
                 value={selectState}
                 onChange={handleStateChange}
                 className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
