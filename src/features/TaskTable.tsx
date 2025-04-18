@@ -139,10 +139,10 @@ function TaskTable({ dataApi, onSortChange, sortby }: TaskTableProps) {
                         <th className="border border-gray-400">Name</th>
                         <th
                             data-testid='header-priority'
-                            className="border border-gray-400 cursor-pointer"
+                            className="border border-gray-400 cursor-pointer bg-gray-300"
                             onClick={() => handleSortChange('priority')}
                         >
-                            <div className='text-center border border-black'>
+                            <span className='text-center'>
                                 <span>Priority</span>
                                 <span>
                                     {
@@ -157,15 +157,13 @@ function TaskTable({ dataApi, onSortChange, sortby }: TaskTableProps) {
                                                 <></>
                                     }
                                 </span>
-                            </div>
-
-
+                            </span>
                         </th>
                         <th
-                            className="text-center border border-black"
+                            className="border border-gray-400 cursor-pointer bg-gray-300"
                             onClick={() => handleSortChange('dueDate')}
                         >
-                            <div className='text-center border border-black'>
+                            <span className='text-center'>
                                 <span>Due Date</span>
                                 <span>
                                     {
@@ -180,7 +178,7 @@ function TaskTable({ dataApi, onSortChange, sortby }: TaskTableProps) {
                                                 <></>
                                     }
                                 </span>
-                            </div>
+                            </span>
 
                         </th>
                         <th className="border border-gray-400">Actions</th>

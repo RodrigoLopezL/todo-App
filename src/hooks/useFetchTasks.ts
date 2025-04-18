@@ -30,9 +30,7 @@ interface UseFetchTasksResult {
     fetchTasks: (
         filters?: Filters,
         page?: number,
-        sortby: string
-        // sortOrderPriority?: 'priority' | 'priority,desc' | '',
-        // sortOrderDueDate?: 'dueDate' | 'dueDate,desc' | ''
+        sortby?: string
     ) => Promise<void>;
 }
 
@@ -48,8 +46,6 @@ const useFetchTasks = (): UseFetchTasksResult => {
             filters: Filters = {},
             page: number = 0,
             sortby: string = '',
-            // sortOrderPriority?: 'priority' | 'priority,desc' | '',
-            // sortOrderDueDate?: 'dueDate' | 'dueDate,desc' | '',
         ) => {
             setLoading(true);
             setError(null);
