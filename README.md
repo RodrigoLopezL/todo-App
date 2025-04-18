@@ -1,54 +1,53 @@
-# React + TypeScript + Vite
+# Todo App front end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a Todo App built with React, TypeScript, and Vite. The app allows users to manage tasks with features like task creation, editing, deletion, sorting, filtering, and pagination. It also includes a time tracking feature to display average task completion times.
 
-Currently, two official plugins are available:
+# Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Task Management: Create, edit, delete, and mark tasks as done/undone.
+- Sorting: Sort tasks by priority or due date.
+- Filtering: Filter tasks by name, priority, or state (done/undone).
+- Pagination: Navigate through tasks with pagination controls.
+- Time Tracking: View average task completion times by priority.
+- Responsive Design: Fully responsive UI built with TailwindCSS.
 
-## Expanding the ESLint configuration
+# Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Frontend: React, TypeScript
+- Build Tool: Vite
+- Styling: TailwindCSS
+- Testing: Vitest, React Testing Library
+- API: Fetch-based integration with a backend service
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+# Installation
+
+1.Clone the repository:
+```bash
+git clone https://github.com/your-username/todo-app.git
+cd todo-app
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+2.Install dependencies:
+```bash
+npm install
 ```
+3.Start the development server:
+```bash
+npm run dev
+```
+4.Open the app in your browser at http://localhost:8080 (default port).
+
+# Testing
+This project uses Vitest for unit testing. To run tests:
+```bash
+npm run test
+```
+# API Endpoints
+The app interacts with a backend API for task management. Below are the key endpoints:
+- GET /todos: Fetch tasks with optional filters, pagination, and sorting.
+- POST /todos: Create a new task.
+- PUT /todos/:id: Update an existing task.
+- PATCH /todos/:id/done: Mark a task as done.
+- PATCH /todos/:id/undone: Mark a task as undone.
+- DELETE /todos/:id: Delete a task.
+- GET /todos/time: Fetch average task completion times.
+
